@@ -39,7 +39,6 @@ export class Address {
   @Column({ type: 'varchar', length: 100, nullable: true })
   label: string; // Home, Office, etc.
 
-  // FIX: Change boolean to bit for MSSQL
   @Column({ type: 'bit', default: 0, name: 'is_default' })
   isDefault: boolean;
 

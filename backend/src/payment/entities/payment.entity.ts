@@ -1,12 +1,3 @@
-// FIX: Use string enum for MSSQL compatibility
-export enum PaymentStatus {
-  PENDING = 'pending',
-  SUCCESS = 'success',
-  FAILED = 'failed',
-  CANCELLED = 'cancelled',
-  REFUNDED = 'refunded',
-}
-
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -24,6 +15,22 @@ import { Order } from '../../order/entities/order.entity';
 import { Reservation } from '../../reservation/entities/reservation.entity';
 import { RoomBooking } from '../../room/entities/room-booking.entity';
 import { Invoice } from './invoice.entity';
+
+export enum PaymentStatus {
+  PENDING = 'pending',
+  SUCCESS = 'success',
+  FAILED = 'failed',
+  CANCELLED = 'cancelled',
+  REFUNDED = 'refunded',
+}
+
+export enum PaymentMethod {
+  CARD = 'card',
+  BANK = 'bank',
+  USSD = 'ussd',
+  MOBILE_MONEY = 'mobile_money',
+  BANK_TRANSFER = 'bank_transfer',
+}
 
 @Entity('payment')
 @Index(['reference'])
@@ -50,11 +57,10 @@ export class Payment {
   @Column({ type: 'varchar', length: 10, default: 'NGN' })
   currency: string;
 
-  // FIX: Change enum to varchar for MSSQL
   @Column({ type: 'varchar', length: 20, default: PaymentStatus.PENDING })
   status: PaymentStatus;
 
-  @Column({ type: 'varchar', length: 50, default: 'Paystack' })
+  @Column({ type: 'varchar', length: 50, default: PaymentMethod.CARD })
   method: string;
 
   @Column({ type: 'varchar', length: 100, unique: true })
@@ -69,7 +75,6 @@ export class Payment {
   @Column({ type: 'varchar', length: 255, nullable: true, name: 'gateway_response' })
   gatewayResponse: string;
 
-  // FIX: Change simple-json to nvarchar for MSSQL
   @Column({ type: 'nvarchar', nullable: true })
   metadata: string;
 
@@ -77,10 +82,16 @@ export class Payment {
   paidAt: Date;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  channel: string; // card, bank, ussd, etc.
+  channel: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true, name: 'ip_address' })
   ipAddress: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true, name: 'customer_email' })
+  customerEmail: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true, name: 'customer_name' })
+  customerName: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })

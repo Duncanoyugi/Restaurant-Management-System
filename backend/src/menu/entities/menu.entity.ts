@@ -59,9 +59,8 @@ export class MenuItem {
   @Column({ type: 'int', default: 0 })
   calories: number;
 
-  // FIX: Change simple-json to nvarchar for MSSQL
   @Column({ type: 'nvarchar', nullable: true })
-  allergens: string;
+  allergens: string | null;
 
   @ManyToOne(() => Restaurant, (restaurant) => restaurant.menuItems)
   @JoinColumn({ name: 'restaurant_id' })

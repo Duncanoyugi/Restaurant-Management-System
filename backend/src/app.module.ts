@@ -20,6 +20,8 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { databaseConfig } from './database/database.config';
 import { OtpModule } from './otp/otp.module';
+import { SmsModule } from './sms/sms.module';
+import { PushNotificationModule } from './push-notification/push-notification.module';
 
 @Module({
   imports: [
@@ -28,7 +30,7 @@ import { OtpModule } from './otp/otp.module';
       envFilePath: '.env',
       load: [databaseConfig],
     }),
-    MenuModule, OrderModule, LocationModule, ReservationModule, RoomModule, PaymentModule, ReviewModule, NotificationModule, UserModule, InventoryModule, AuthModule, MailerModule, AnalyticsModule, DeliveryModule, RestaurantModule, DatabaseModule, OtpModule],
+    MenuModule, OrderModule, LocationModule, ReservationModule, RoomModule, PaymentModule, ReviewModule, NotificationModule, UserModule, InventoryModule, AuthModule, MailerModule, AnalyticsModule, DeliveryModule, RestaurantModule, DatabaseModule, OtpModule, SmsModule, PushNotificationModule],
   controllers: [AppController],
   providers: [AppService],
 })
